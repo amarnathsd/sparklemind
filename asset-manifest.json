@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/sparklemind/static/css/main.2cd56a0e.css",
+    "main.js": "/sparklemind/static/js/main.1dc75f33.js",
+    "static/js/453.acf225c3.chunk.js": "/sparklemind/static/js/453.acf225c3.chunk.js",
+    "index.html": "/sparklemind/index.html",
+    "main.2cd56a0e.css.map": "/sparklemind/static/css/main.2cd56a0e.css.map",
+    "main.1dc75f33.js.map": "/sparklemind/static/js/main.1dc75f33.js.map",
+    "453.acf225c3.chunk.js.map": "/sparklemind/static/js/453.acf225c3.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2cd56a0e.css",
+    "static/js/main.1dc75f33.js"
+  ]
+}
