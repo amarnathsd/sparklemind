@@ -1,37 +1,67 @@
-// UserDashboard.js
-import React, { useState } from "react";
-import { auth } from "../firebase";
-import { updatePassword } from "firebase/auth";
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from "react";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
+import { Table } from "react-bootstrap";
 
-const UserDashboard = () => {
-  const [password, setPassword] = useState("");
+const Dashboard = () => {
+  const [users, setUsers] = useState([]);
 
-  const handlePasswordChange = async (e) => {
-    e.preventDefault();
-    if (!validatePassword(password)) {
-      toast.error("Password must contain 8 characters, including a number and special character.");
-      return;
-    }
-    try {
-      await updatePassword(auth.currentUser, password);
-      toast.success("Password updated successfully.");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const userList = querySnapshot.docs.map((doc) => ({
+          id: doc.id, 
+          ...doc.data(),
+        }));
+        setUsers(userList);
+      } catch (error) {
+        console.error("Error fetching users: ", error);
+      }
+    };
 
-  const validatePassword = (password) => {
-    const regex = /^(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/;
-    return regex.test(password);
-  };
+    fetchUsers();
+  }, []);
 
   return (
-    <form onSubmit={handlePasswordChange}>
-      <input type="password" placeholder="New Password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <button type="submit">Update Password</button>
-    </form>
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Registered Users</h2>
+      <div className="table-responsive">
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Country</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.length > 0 ? (
+              users.map((user) => (
+                <tr key={user.email}>
+                  <td>{user.firstName}</td>
+                  <td>{user.lastName}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phone || "N/A"}</td>
+                  <td>{user.country || "N/A"}</td>
+                  <td>{user.emailVerified ? "Verified" : "Not Verified"}</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan="6" className="text-center">
+                  No users found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      </div>
+    </div>
   );
 };
 
-export default UserDashboard;
+export default Dashboard;

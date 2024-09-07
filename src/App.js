@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import Register from "./screens/Register";
 import Login from "./screens/Login";
 import UserDashboard from "./screens/UserDashboard";
-import AdminPanel from "./screens/AdminPanel";
+import AdminPanel from "./screens/Admin";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {

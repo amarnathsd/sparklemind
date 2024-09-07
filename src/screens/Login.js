@@ -20,7 +20,7 @@ const Login = () => {
         toast.warn("Please verify your email.");
         return;
       }
-      window.location.href = '/admin';
+      window.location.href = '/dashboard';
       toast.success("Login successful!");
     } catch (error) {
       toast.error(error.message);
